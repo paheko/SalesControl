@@ -159,7 +159,7 @@ namespace punto_venta
                                     if (temp.id_producto.Equals(Codigo.Text))
                                     {
                                         temp.cantidad = int.Parse(Cantidad.Text) + temp.cantidad;
-                                        temp.total = float.Parse(Precio_Neto.Text) + temp.precio;
+                                        temp.total = float.Parse(Precio_Neto.Text) + temp.total;
                                     }
                                 }
                                 agregarProductoPantalla.Codigo = Codigo.Text;
@@ -187,8 +187,8 @@ namespace punto_venta
                                 {
                                     if (temp.id_producto.Equals(Codigo.Text))
                                     {
-                                        temp.cantidad = Convert.ToInt16(Cantidad.Text);
-                                        temp.precio = float.Parse(Precio_Neto.Text);
+                                        temp.cantidad = int.Parse(Cantidad.Text) + temp.cantidad;
+                                        temp.total = float.Parse(Precio_Neto.Text) + temp.total;
                                     }
                                 }
                                 //
@@ -290,8 +290,8 @@ namespace punto_venta
                                     {
                                         if (temp.id_producto.Equals(Codigo.Text))
                                         {
-                                            temp.cantidad = Convert.ToInt16(Cantidad.Text);
-                                            temp.precio = float.Parse(Precio_Neto.Text);
+                                            temp.cantidad = int.Parse(Cantidad.Text) + temp.cantidad;
+                                            temp.total = float.Parse(Precio_Neto.Text) + temp.total;
                                         }
                                     }
                                     //
@@ -826,7 +826,7 @@ namespace punto_venta
                                     if (temp.id_producto.Equals(Codigo.Text))
                                     {
                                         temp.cantidad = int.Parse(Cantidad.Text) + temp.cantidad;
-                                        temp.total = float.Parse(Precio_Neto.Text) + temp.precio;
+                                        temp.total = float.Parse(Precio_Neto.Text) + temp.total;
                                     }
                                 }
                                 agregarProductoPantalla.Codigo = Codigo.Text;

@@ -33,15 +33,26 @@ namespace punto_venta
             else if (usuarios_combobox.Text.Equals("Todos"))
             {
                 VentasTotales = new DAOVentas().GetVentas(string.Format("{0:yyyy-MM-dd}", Convert.ToDateTime(fecha1_picker.Value)));
-                dataGridView1.DataSource = VentasTotales.ToArray();
+               ActualizarDataGrid();
             }
             else
             {
                 VentasTotales = new DAOVentas().GetVentas(string.Format("{0:yyyy-MM-dd}", Convert.ToDateTime(fecha1_picker.Value)), usuarios_combobox.Text);
-                dataGridView1.DataSource = VentasTotales.ToArray();
+                ActualizarDataGrid();
             }
         }
-
+        private void ActualizarDataGrid() 
+        {
+            List<Ventas> Ventas = new List<Ventas>(); 
+            foreach(Ventas temp in VentasTotales)
+            {
+                if(temp.Total!=0)
+                {
+                    Ventas.Add(temp);
+                }
+            }
+            dataGridView1.DataSource = Ventas.ToArray();
+        }
         private void Código_textbox_KeyPress(object sender, KeyPressEventArgs e)
         {
            
@@ -80,6 +91,30 @@ namespace punto_venta
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void devoluciones_form_Activated(object sender, EventArgs e)
+        {
+            if(dataGridView1.DataSource!=null)
+            {
+                dataGridView1.DataSource = null;
+                if (usuarios_combobox.Text.Equals(""))
+                {
+                    MessageBox.Show("Debe de escoger un usuario.", "Alerta",
+             MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else if (usuarios_combobox.Text.Equals("Todos"))
+                {
+                    VentasTotales = new DAOVentas().GetVentas(string.Format("{0:yyyy-MM-dd}", Convert.ToDateTime(fecha1_picker.Value)));
+                    ActualizarDataGrid();
+                }
+                else
+                {
+                    VentasTotales = new DAOVentas().GetVentas(string.Format("{0:yyyy-MM-dd}", Convert.ToDateTime(fecha1_picker.Value)), usuarios_combobox.Text);
+                   ActualizarDataGrid();
+                }
+            }
+            
         }
     }
 }

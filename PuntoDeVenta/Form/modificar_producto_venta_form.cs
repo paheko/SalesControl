@@ -27,7 +27,16 @@ namespace punto_venta
             producto_textBox.Text = ProductoAnalizado.Producto;
             cantidad_textBox.Text = ProductoAnalizado.Cantidad;
             total_textBox.Text = ProductoAnalizado.Precio;
-            precio_textBox.Text = Convert.ToString(new DAOProductos().GetProducts(Codigo_textbox.Text).Precio);
+            DTOOfertas oferta = new DAOOfertas().GetOferta(ProductoIngresado.Codigo);
+            if (oferta == null)
+            {
+                precio_textBox.Text = Convert.ToString(new DAOProductos().GetProducts(Codigo_textbox.Text).Precio);
+            }
+            else 
+            {
+                precio_textBox.Text = oferta.precio.ToString();
+            }
+            
         }
 
         private void Modificar_precio_Click(object sender, EventArgs e)
@@ -191,6 +200,27 @@ namespace punto_venta
         {
             producto = ProductoAnalizado;
             this.Close();
+        }
+
+        private void cantidad_textBox_Leave(object sender, EventArgs e)
+        {
+            total_textBox.Text = Convert.ToString(float.Parse(precio_textBox.Text) * float.Parse(cantidad_textBox.Text));
+            cantidad_textBox.Enabled = false;
+        }
+
+        private void precio_textBox_Leave(object sender, EventArgs e)
+        {
+            total_textBox.Text = Convert.ToString(float.Parse(cantidad_textBox.Text) * float.Parse(precio_textBox.Text));
+
+            precio_textBox.Enabled = false;
+        }
+
+        private void descuento_textBox_Leave(object sender, EventArgs e)
+        {
+            float descuento = float.Parse(descuento_textBox.Text) / 100;
+            precio_textBox.Text = Convert.ToString(float.Parse(precio_textBox.Text) - (float.Parse(precio_textBox.Text) * descuento));
+            total_textBox.Text = Convert.ToString(float.Parse(cantidad_textBox.Text) * float.Parse(precio_textBox.Text));
+            descuento_textBox.Enabled = false;
         }
     }
 }

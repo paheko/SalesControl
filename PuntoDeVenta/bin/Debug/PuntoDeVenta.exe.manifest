@@ -120,14 +120,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="PuntoDeVenta.exe" size="15854592">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="PuntoDeVenta.exe" size="15856640">
       <assemblyIdentity name="PuntoDeVenta" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>VZ8Bf2UcFaPkmxDJac9/qru8MqWW6VkCPWkQtQ3zcOc=</dsig:DigestValue>
+        <dsig:DigestValue>oDC8+ElwLtdxVQcCP6cLf3NR5wF5IFn22lzIKh4Fhho=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

@@ -87,7 +87,7 @@ namespace punto_venta
                 bool productoEncontrado = false;
                 foreach(Detalle temp in ticket)
                 {
-                    if(temp.id_producto.Equals(Codigo_textbox.Text))
+                    if(temp.id_producto.Equals(Codigo_textbox.Text) && temp.cantidad!=0)
                     {
                         productoEncontrado = true;
                         break;
@@ -149,13 +149,23 @@ namespace punto_venta
                         new DAODetalle().ModificarDetalle(detalle);
                         List<Detalle> detalles = new List<Detalle>();
                         detalles = new DAODetalle().GetDetails(new Validaciones().LimpiarString(clave_venta_textbox.Text));
-                        Ventas devolucion = new Ventas();
+                        Ventas devolucion = new DAOVentas().GetVentaXId(clave_venta_textbox.Text);
 
                         devolucion.Total = ObtenerTotalVenta(detalles);
                         new DAOVentas().ModificarVenta(devolucion);
-                        new DAOProductos().Aumentarproductos(Codigo_textbox.Text, int.Parse(cantidad_textbox.Text));
+                        //Se verifica si el producto es una oferta para regresar la cantidad.
+                        DTOOfertas oferta = new DAOOfertas().GetOferta(Codigo_textbox.Text);
+                        if (oferta != null)
+                        {
+
+                            new DAOProductos().Aumentarproductos(oferta.codigo, oferta.cantidad * int.Parse(cantidad_textbox.Text));
+                        }
+                        else
+                        {
+                            new DAOProductos().Aumentarproductos(Codigo_textbox.Text, int.Parse(cantidad_textbox.Text));
+                        }
                         MessageBox.Show("Devolución realizada con éxito.", "Devolución", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        BorrarTodo();
+                        FocusTicket();
 
                     }
                 }
@@ -190,17 +200,19 @@ namespace punto_venta
             cantidad_textbox.Enabled = false;
             Codigo_textbox.Enabled = false;
             clave_venta_textbox.Enabled = true;
+            clave_venta_textbox.Text = null;
             dataGridView1.DataSource = null;
             clave_venta_textbox.Focus();
             clave_venta_textbox.Text = null;
             cantidad_textbox.Text = null;
             Codigo_textbox.Text = null;
+            clearTable();
         }
 
         private void finalizar_button_Click(object sender, EventArgs e)
         {
-            devolucion_por_ticket_form devticket = new devolucion_por_ticket_form(usuarioActual);
-            devticket.Hide();
+            //devolucion_por_ticket_form devticket = new devolucion_por_ticket_form(usuarioActual);
+            this.Close();
         }
 
         private void devolver_button_Click(object sender, EventArgs e)
@@ -232,17 +244,36 @@ namespace punto_venta
                     new DAODetalle().ModificarDetalle(detalle);
                     List<Detalle> detalles = new List<Detalle>();
                     detalles = new DAODetalle().GetDetails(new Validaciones().LimpiarString(clave_venta_textbox.Text));
-                    Ventas devolucion = new Ventas();
-
+                    Ventas devolucion = new DAOVentas().GetVentaXId(clave_venta_textbox.Text);
+                    
                     devolucion.Total = ObtenerTotalVenta(detalles);
                     new DAOVentas().ModificarVenta(devolucion);
-                    
-                    new DAOProductos().Aumentarproductos(Codigo_textbox.Text, int.Parse(cantidad_textbox.Text));
+                    //Se verifica si el producto es una oferta para regresar la cantidad.
+                    DTOOfertas oferta = new DAOOfertas().GetOferta(Codigo_textbox.Text);
+                    if (oferta != null)
+                    {
+                        
+                        new DAOProductos().Aumentarproductos(oferta.codigo, oferta.cantidad * int.Parse(cantidad_textbox.Text));
+                    }
+                    else 
+                    {
+                        new DAOProductos().Aumentarproductos(Codigo_textbox.Text, int.Parse(cantidad_textbox.Text));
+                    }
                     MessageBox.Show("Devolución realizada con éxito.", "Devolución", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    BorrarTodo();
+                    FocusTicket();
 
                 }
             }
+        }
+        private void FocusTicket() 
+        {
+            Codigo_textbox.Text = null;
+            Codigo_textbox.Enabled = true;
+            cantidad_textbox.Text = null;
+            cantidad_textbox.Enabled = false;
+            Codigo_textbox.Focus();
+            ticket = new DAODetalle().GetDetails(clave_venta_textbox.Text);
+            ActualizarDataGrid(ticket);
         }
         public void BorrarTodo() 
         {
@@ -320,19 +351,21 @@ namespace punto_venta
             dataGridView1.DataSource = null;
             foreach (Detalle u in lista)
             {
+                if(u.cantidad!=0)
                 dataGridView1.Rows.Add(u.id_producto,new DAOProductos().GetProducts(u.id_producto).Nombre, u.cantidad,u.total);
             }
             //dataGridView_Clientes.DataSource = usuarios.ToArray();
         }
         private void clearTable()
         {
-            if(dataGridView1.Rows.Count!=0)
+            dataGridView1.Rows.Clear();
+           /* if(dataGridView1.Rows.Count!=0)
             {
                 while (dataGridView1.Rows.Count != 1)
                 {
                     dataGridView1.Rows.RemoveAt(0);
                 }
-            }
+            }*/
         }
     }
 }

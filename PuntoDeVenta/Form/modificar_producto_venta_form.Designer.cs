@@ -136,6 +136,7 @@
             this.descuento_textBox.Size = new System.Drawing.Size(93, 29);
             this.descuento_textBox.TabIndex = 66;
             this.descuento_textBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.descuento_textBox_KeyPress);
+            this.descuento_textBox.Leave += new System.EventHandler(this.descuento_textBox_Leave);
             // 
             // label6
             // 
@@ -212,6 +213,7 @@
             this.precio_textBox.Size = new System.Drawing.Size(93, 29);
             this.precio_textBox.TabIndex = 60;
             this.precio_textBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.precio_textBox_KeyPress);
+            this.precio_textBox.Leave += new System.EventHandler(this.precio_textBox_Leave);
             // 
             // label2
             // 
@@ -246,6 +248,7 @@
             this.cantidad_textBox.TabIndex = 57;
             this.cantidad_textBox.TextChanged += new System.EventHandler(this.cantidad_textBox_TextChanged);
             this.cantidad_textBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.cantidad_textBox_KeyPress);
+            this.cantidad_textBox.Leave += new System.EventHandler(this.cantidad_textBox_Leave);
             // 
             // label5
             // 

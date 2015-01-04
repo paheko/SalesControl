@@ -107,6 +107,30 @@ namespace DAO
            }
            return ventas;
        }
+       public Ventas GetVentaXId(string id)
+       {
+           Ventas ventas = new Ventas();
+           SqlCeConnection conn = new SqlCeConnection(@"Data Source=|DataDirectory|\DB\DB_local.sdf");
+           conn.Open();
+
+           //commands represent a query or a stored procedure
+           SqlCeCommand cmd = conn.CreateCommand();
+           cmd.CommandText = "SELECT * FROM ventas WHERE id='" + id + "'";
+           SqlCeDataReader reader = cmd.ExecuteReader();
+
+           while (reader.Read())
+           {
+               ventas= new Ventas(
+                   reader["id"].ToString(),
+                   reader["fecha"].ToString(),
+                   float.Parse(reader["total"].ToString()),
+                   reader["usuario"].ToString(),
+                   reader["tipo"].ToString(),
+                   reader["hora"].ToString()
+                   );
+           }
+           return ventas;
+       }
        public List<Ventas> GetVentas()
        {
            List<Ventas> ventas = new List<Ventas>();

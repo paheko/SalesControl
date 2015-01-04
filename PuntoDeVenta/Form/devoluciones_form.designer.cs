@@ -126,6 +126,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "devoluciones_form";
             this.Text = "Devoluciones";
+            this.Activated += new System.EventHandler(this.devoluciones_form_Activated);
             this.Load += new System.EventHandler(this.devoluciones_form_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
